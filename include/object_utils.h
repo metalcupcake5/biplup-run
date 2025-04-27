@@ -66,7 +66,7 @@ void object_constructor(Object *obj, int obj_counter, float x, float y,
  * must pass before the object respawns.
  * @param tile_number An int indicating the sprite of this object.
  */
-void obstacle_constructor(Obstacle *obj, int obj_counter, float y,
+void obstacle_constructor(Obstacle *obs, int obj_counter, float y,
                           float x_velocity, int frame_spawn_threshold,
                           int tile_number);
 
