@@ -18,31 +18,77 @@ int main(void) {
   init_main();
 
   // player
-  Object *player = &(Object){};
+  Player *player = &(Player){0};
+  player->obj_args = &(Object){0};
   player_constructor(player);
 
   // my obstacles :) TODO: wrap into for loops per obstacle type, which clears
   // out last magic numbers in main
-  Object *above_blob = &(Object){};
+  Obstacle *above_blob = &(Obstacle){0};
+  above_blob->obj_args = &(Object){0};
 
   obstacle_constructor(above_blob, 1, FLOOR_LEVEL + DACTYL_HEIGHT_DIFF,
-                       DACTYL_BASE_X_VELOCITY, DACTYL_FRAME_SPAWN_THRESHOLD,
-                       BLOB);
-  Object *middle_blob_1 = &(Object){};
+                       DACTYL_FRAME_SPAWN_THRESHOLD, DACTYL);
+  Obstacle *middle_blob_1 = &(Obstacle){0};
+  middle_blob_1->obj_args = &(Object){0};
 
-  obstacle_constructor(middle_blob_1, 2, FLOOR_LEVEL, CACTI_BASE_X_VELOCITY,
-                       CACTUS_FRAME_SPAWN_THRESHOLD, BLOB);
+  obstacle_constructor(middle_blob_1, 2, FLOOR_LEVEL,
+                       CACTUS_FRAME_SPAWN_THRESHOLD, CACTUS);
 
-  Object *middle_blob_2 = &(Object){};
+  Obstacle *middle_blob_2 = &(Obstacle){0};
+  middle_blob_2->obj_args = &(Object){0};
+  obstacle_constructor(middle_blob_2, 3, FLOOR_LEVEL,
+                       CACTUS_FRAME_SPAWN_THRESHOLD * 2, CACTUS);
 
-  obstacle_constructor(middle_blob_2, 3, FLOOR_LEVEL, CACTI_BASE_X_VELOCITY,
-                       CACTUS_FRAME_SPAWN_THRESHOLD * 2, BLOB);
+  Obstacle *obstacles[OBSTACLE_AMOUNT] = {above_blob, middle_blob_1,
+                                          middle_blob_2};
 
-  Object *obstacles[OBSTACLE_AMOUNT] = {above_blob, middle_blob_1,
-                                        middle_blob_2};
+  blob_1.attr->attr0 =
+      ATTR0_Y((int)blob_1.y) | ATTR0_SQUARE | ATTR0_4BPP | ATTR0_REG;
+  blob_1.attr->attr1 = ATTR1_X((int)blob_1.x) | ATTR1_SIZE_16x16;
+  blob_1.attr->attr2 = ATTR2_ID(0) | ATTR2_PRIO(0) | ATTR2_PALBANK(0);
 
-  while (true) {
-    // sync up the video
+  Object blob_2 = (Object){
+      .attr = &oam_mem[1], .x = 250, .y = floor_level, .is_active = false};
+
+  blob_2.attr->attr0 = ATTR0_Y((int)blob_2.y) | ATTR0_SQUARE | ATTR0_4BPP |
+                       ATTR0_MODE(ATTR0_REG);
+  blob_2.attr->attr1 = ATTR1_X((int)blob_2.x) | ATTR1_SIZE_16x16;
+  blob_2.attr->attr2 = ATTR2_ID(0) | ATTR2_PRIO(1) | ATTR2_PALBANK(0);
+
+  Object blob_3 = (Object){
+      .attr = &oam_mem[2], .x = 250, .y = floor_level - 10, .is_active = false};
+
+  blob_3.attr->attr0 = ATTR0_Y((int)blob_3.y) | ATTR0_SQUARE | ATTR0_4BPP |
+                       ATTR0_MODE(ATTR0_REG);
+  blob_3.attr->attr1 = ATTR1_X((int)blob_3.x) | ATTR1_SIZE_16x16;
+  blob_3.attr->attr2 = ATTR2_ID(0) | ATTR2_PRIO(2) | ATTR2_PALBANK(0);
+
+  despawn(&blob_2);
+  despawn(&blob_3);
+
+  REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
+  REG_BG0CNT = BG_CBB(0) | BG_SBB(31) | BG_4BPP | BG_REG_32x32;
+
+  direction offscreen;
+
+  update_obj_x(&blob_1);
+  update_obj_y(&blob_1);
+
+  update_obj_x(&blob_2);
+  update_obj_y(&blob_2);
+
+  update_obj_x(&blob_3);
+  update_obj_y(&blob_3);
+
+  int obj_2_timer = 0;
+  int obj_3_timer = 0;
+  int frame_counter = 0;
+
+  int obj_2_threshold = 100;
+  int obj_3_threshold = 250;
+
+  while (1) {
     vid_vsync();
 
     // the whole game is wrapped into a switch-case based on game state
@@ -55,10 +101,12 @@ int main(void) {
 
       // receive player input and update physics
       game_key_input(player);
-      update_player_physics(player, FLOOR_LEVEL);
+      update_player_physics(player);
 
       // allow each object to move, spawn, or wait
       update_obstacles(obstacles);
+
+      dino_walk_animation(player->obj_args, frame_counter);
 
       // check if the player is colliding with each object
       if (!check_player_collision(player, obstacles)) {
