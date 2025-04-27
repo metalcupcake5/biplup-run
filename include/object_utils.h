@@ -97,7 +97,7 @@ void player_constructor(Player *player);
 void despawn(Obstacle *obs);
 
 /**
- * Enable an object in the game..
+ * Enable an object in the game.
  *
  * Given a pointer to an Obstacle struct, show the obstacle and set it to an
  * active state. This allows the obstacle to begin traversing the screen, if it

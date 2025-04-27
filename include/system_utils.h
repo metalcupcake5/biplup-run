@@ -43,5 +43,16 @@ void reset_game_state(void);
  * Set the global game state variable to the POSTGAME state.
  */
 void end_game(void);
+
+/**
+ * Retrieve the high score from SRAM and save it to the global high score
+ * variable.
+ *
+ * At the start of the game, retrieve the high score from SRAM, so that
+ * the high score can last across device resets.
+ *
+ * @return The high score, built from unsigned 8 bit integers, as a unsigned 32
+ * bit integer.
+ */
 u32 retrieve_high_score(void);
 void save_high_score(void);
