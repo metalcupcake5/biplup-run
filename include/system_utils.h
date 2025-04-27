@@ -39,3 +39,5 @@ void reset_game_state(void);
  * Set the global game state variable to the POSTGAME state.
  */
 void end_game(void);
+u32 retrieve_high_score(void);
+void save_high_score(void);

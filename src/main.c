@@ -104,9 +104,7 @@ int main(void) {
       update_player_physics(player);
 
       // allow each object to move, spawn, or wait
-      for (int i = 0; i < OBSTACLE_AMOUNT; i++) {
-        update_obstacle(obstacles[i]);
-      }
+      update_obstacles(obstacles);
 
       dino_walk_animation(player->obj_args, frame_counter);
 

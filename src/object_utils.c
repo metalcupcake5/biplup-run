@@ -61,6 +61,12 @@ void update_obstacle(Obstacle *obs) {
     if (offscreen.left) {
       despawn(obs);
     }
+  }
+  // if the score is a multiple of 500, the obstacles should speed up
+  if (score % SCORE_MILESTONE == 0) {
+    update_obstacle_velocities(obstacles);
+  }
+}
 
     // progress the object
     obj_set_pos(obs->obj_args->attr,
