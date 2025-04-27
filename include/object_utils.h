@@ -66,7 +66,7 @@ void object_constructor(Object *obj, int obj_counter, float x, float y,
  * must pass before the object respawns.
  * @param tile_number An int indicating the sprite of this object.
  */
-void obstacle_constructor(Obstacle *obj, int obj_counter, float y,
+void obstacle_constructor(Obstacle *obs, int obj_counter, float y,
                           float x_velocity, int frame_spawn_threshold,
                           int tile_number);
 
@@ -107,14 +107,6 @@ void despawn(Obstacle *obs);
  */
 void spawn(Obstacle *obs);
 
-/**
- * Update all of the obstacle velocities when the score hits a milestone.
- *
- * Given an array of obstacles, update all of those obstacles' velocities by a
- * multiplier based on the score.
- *
- * @param obstacles The array of obstacles to be edited.
- */
 void update_obstacle_velocities(Obstacle **obstacles);
 
 /**

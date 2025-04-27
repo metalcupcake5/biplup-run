@@ -47,17 +47,13 @@ void init_main(void) {
   game_state = PRE_GAME;
   frame_counter = 1;
   animation_dino_frame = 0;
-  score_init();
+  text_init();
   start_text();
 }
 
 void reset_game_state(void) {
   game_state = GAME;
   frame_counter = 1;
-  if ((u32)score > high_score) {
-    high_score = (u32)score;
-  }
-  save_high_score();
   animation_dino_frame = 0;
   score = 0;
 }
