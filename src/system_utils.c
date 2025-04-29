@@ -14,7 +14,10 @@ u32 high_score;
 Game_State game_state;
 RECT offscreen;
 int frame_counter;
-int animation_dino_frame;
+int end_game_frame;
+int last_cheat_frame;
+int animation_frame;
+int cheat_sprite_state;
 
 void init_main(void) {
   oam_init(oam_mem, MAX_SPRITES);
@@ -46,7 +49,10 @@ void init_main(void) {
   high_score = retrieve_high_score();
   game_state = PRE_GAME;
   frame_counter = 1;
-  animation_dino_frame = 0;
+  end_game_frame = 0;
+  last_cheat_frame = 0;
+  animation_frame = 0;
+  cheat_sprite_state = 0;
   text_init();
   start_text();
 }
@@ -54,11 +60,20 @@ void init_main(void) {
 void reset_game_state(void) {
   game_state = GAME;
   frame_counter = 1;
-  animation_dino_frame = 0;
+  end_game_frame = 0;
+  last_cheat_frame = 0;
+  if ((u32)score > high_score) {
+    high_score = (u32)score;
+  }
+  save_high_score();
+  animation_frame = 0;
   score = 0;
 }
 
-void end_game(void) { game_state = POST_GAME; }
+void end_game(void) {
+  game_state = POST_GAME;
+  end_game_frame = frame_counter;
+}
 
 u32 retrieve_high_score(void) {
   int total_size = 4;
@@ -67,7 +82,7 @@ u32 retrieve_high_score(void) {
     byte_parts_of_data[i] = ((vu8 *)MEM_SRAM)[i];
   }
 
-  u32 high_score_num = 0;
+  // u32 high_score_num = 0;
   vu32 building_high_score = 0;
 
   for (int i = 0; i < total_size; i++) {
@@ -75,7 +90,7 @@ u32 retrieve_high_score(void) {
                            << (((total_size - 1) - i) * 8);
   }
 
-  high_score_num = (u32)building_high_score;
+  // high_score_num = (u32)building_high_score;
 
   return 0; // returning 0 resets the game high score across resets
 }
