@@ -29,13 +29,7 @@ int main(void) {
   // out last magic numbers in main
   Obstacle *dactyl = &(Obstacle){0};
   dactyl->obj_args = &(Object){0};
-  Obstacle *dactyl = &(Obstacle){0};
-  dactyl->obj_args = &(Object){0};
 
-  obstacle_constructor(dactyl, 1, FLOOR_LEVEL + DACTYL_HEIGHT_DIFF,
-                       DACTYL_FRAME_SPAWN_THRESHOLD, AERODACTYL);
-  Obstacle *cactus_1 = &(Obstacle){0};
-  cactus_1->obj_args = &(Object){0};
   obstacle_constructor(dactyl, 1, FLOOR_LEVEL + DACTYL_HEIGHT_DIFF,
                        DACTYL_FRAME_SPAWN_THRESHOLD, AERODACTYL);
   Obstacle *cactus_1 = &(Obstacle){0};
@@ -123,7 +117,9 @@ int main(void) {
       // allow each object to move, spawn, or wait
       update_obstacles(obstacles);
 
-      animation(player->obj_args, frame_counter, BIPLUP);
+      animation(player->obj_args, frame_counter);
+      animation(obstacles[0]->obj_args, frame_counter);
+      animation_frame = !animation_frame;
 
       // check if the player is colliding with each object
       if (!check_player_collision(player, obstacles)) {
