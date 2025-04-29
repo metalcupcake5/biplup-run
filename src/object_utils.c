@@ -18,6 +18,7 @@ void object_constructor(Object *obj, int obj_counter, float x, float y,
   obj->x = x;
   obj->y = y;
   obj->default_sprite = tile_number;
+  obj->default_sprite = tile_number;
 
   obj->attr->attr0 =
       ATTR0_Y((int)obj->y) | ATTR0_SQUARE | ATTR0_4BPP | ATTR0_REG;
@@ -200,9 +201,10 @@ void animation(Object *obj, int frame) {
     } else {
       change_sprite(obj, get_sprite_id(obj) + 16);
     }
+    animation_frame = !animation_frame;
   }
 }
 
 Sprite_ID get_sprite_id(Object *obj) {
-  return obj->default_sprite + 96 * cheat_sprite_state;
+  return obj->default_sprite + 80 * cheat_sprite_state;
 }
