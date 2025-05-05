@@ -29,6 +29,8 @@ int main(void) {
   // out last magic numbers in main
   Obstacle *dactyl = &(Obstacle){0};
   dactyl->obj_args = &(Object){0};
+  Obstacle *dactyl = &(Obstacle){0};
+  dactyl->obj_args = &(Object){0};
 
   obstacle_constructor(dactyl, 1, FLOOR_LEVEL + DACTYL_HEIGHT_DIFF,
                        DACTYL_FRAME_SPAWN_THRESHOLD, AERODACTYL);
@@ -100,6 +102,9 @@ int main(void) {
     if (frame_counter - last_cheat_frame > KEY_DEBOUNCE) {
       cheat_key_input(player, obstacles);
     }
+    if (frame_counter - last_cheat_frame > KEY_DEBOUNCE) {
+      cheat_key_input(player, obstacles);
+    }
 
     // the whole game is wrapped into a switch-case based on game state
     switch (game_state) {
@@ -111,6 +116,7 @@ int main(void) {
 
       // receive player input and update physics
       game_key_input(player);
+      // check for cheat state
       // check for cheat state
       update_player_physics(player);
 
