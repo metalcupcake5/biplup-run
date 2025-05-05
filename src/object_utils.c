@@ -5,6 +5,7 @@
 #include "types.h"
 #include <stdbool.h>
 
+extern int score;
 extern RECT offscreen;
 extern int frame_counter;
 extern int animation_frame;
