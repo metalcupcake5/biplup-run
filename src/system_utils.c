@@ -28,35 +28,42 @@ int cheat_sprite_state;
 void init_main(void) {
   oam_init(oam_mem, MAX_SPRITES);
 
-  memcpy16(pal_obj_mem + DINO_WALK_1, dino_walkPal, dino_walkPalLen / 2);
-  memcpy32((u32 *)MEM_VRAM_OBJ, dino_walkTiles, dino_walkTilesLen / 4);
+  // dino
+  memcpy16(pal_obj_mem + DINO, dino_walk_32Pal, dino_walk_32PalLen / 2);
+  memcpy32(*tile_mem_obj, dino_walk_32Tiles, dino_walk_32TilesLen / 4);
 
-  memcpy16(pal_obj_mem + DINO_WALK_1 + CACTUS, cactus_1Pal, cactus_1PalLen / 2);
-  memcpy32((u32 *)MEM_VRAM_OBJ + dino_walkTilesLen / 4, cactus_1Tiles,
-           cactus_1TilesLen / 4);
+  // cactus
+  memcpy16(pal_obj_mem + CACTUS, cactus_1_32Pal, cactus_1_32PalLen / 2);
+  memcpy32(*tile_mem_obj + CACTUS, cactus_1_32Tiles, cactus_1_32TilesLen / 4);
 
+  // dactyl
   memcpy16(pal_obj_mem + DACTYL, dactyl_fly_32Pal, dactyl_fly_32PalLen / 2);
   memcpy32(*tile_mem_obj + DACTYL, dactyl_fly_32Tiles,
            dactyl_fly_32TilesLen / 4);
 
+  // cloud
   memcpy16(pal_obj_mem + CLOUD, cloud_32Pal, cloud_32PalLen / 2);
   memcpy32(*tile_mem_obj + CLOUD, cloud_32Tiles, cloud_32TilesLen / 4);
 
+  // piplup
   memcpy16(pal_obj_mem + BIPLUP, biplup_walk_32_bwPal,
            biplup_walk_32_bwPalLen / 2);
   memcpy32(*tile_mem_obj + BIPLUP, biplup_walk_32_bwTiles,
            biplup_walk_32_bwTilesLen / 4);
 
+  // sudowoodo
   memcpy16(pal_obj_mem + SUDOWOODO, sudowoodo_32_bwPal,
            sudowoodo_32_bwPalLen / 2);
   memcpy32(*tile_mem_obj + SUDOWOODO, sudowoodo_32_bwTiles,
            sudowoodo_32_bwTilesLen / 4);
 
+  // aerodactyl
   memcpy16(pal_obj_mem + AERODACTYL, aero_fly_32_bwPal,
            aero_fly_32_bwPalLen / 2);
   memcpy32(*tile_mem_obj + AERODACTYL, aero_fly_32_bwTiles,
            aero_fly_32_bwTilesLen / 4);
 
+  // swablu
   memcpy16(pal_obj_mem + SWABLU, swablu_bwPal, swablu_bwPalLen / 2);
   memcpy32(*tile_mem_obj + SWABLU, swablu_bwTiles, swablu_bwTilesLen / 4);
 
