@@ -18,6 +18,7 @@ void object_constructor(Object *obj, int obj_counter, float x, float y,
   obj->x = x;
   obj->y = y;
   obj->default_sprite = tile_number;
+  obj->default_sprite = tile_number;
 
   obj->attr->attr0 =
       ATTR0_Y((int)obj->y) | ATTR0_SQUARE | ATTR0_4BPP | ATTR0_REG;
